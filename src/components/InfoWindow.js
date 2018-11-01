@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { InfoWindow } from 'react-google-maps'
+import { InfoWindow } from 'google-maps-react'
 
 export class ParkInfoWindow extends Component {
   render() {

@@ -1,60 +1,46 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, } from 'react-google-maps';
-import  PlaceMarker  from './marker.js'
+//import  PlaceMarker  from './marker.js'
 
-const google = window.google;
+//const google = window.google;
 
 const GoogleMaps = withScriptjs(withGoogleMap(props => (
   <GoogleMap
-    onTilesLoaded={props.fetchPlaces}
-    ref={props.onMapMounted}
-    onBoundsChanged={props.fetchPlaces}
     defaultCenter={props.center}
     defaultZoom={props.zoom} >
 
-    {props.places && props.places.map((place, i) =>
-        <PlaceMarker
-          key={i}
-          position={{
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
-          }} />
-    )}
   </GoogleMap>
 )));
 
 class Map extends Component {
+  constructor(props) {
+    super(props)
 
-  componentWillMount() {
-    const refs = {}
+    this.zoom = 13
 
-      this.setState({
-        bounds: null,
-        center: {
-          lat: 44.986656,
-          lng: -93.258133
-        },
-        places:[],
-        onMapMounted: ref => {
-          refs.map = ref;
-        },
-        fetchPlaces:() => {
-           const bounds = refs.map.getBounds();
-           const service = new google.maps.places.PlacesService(refs.map.context.MAP);
-           const request = {
-               bounds: bounds,
-               type: ['park']
-           };
-           service.nearbySearch(request, (results, status) => {
-             if (status === google.maps.places.PlacesServiceStatus.OK) {
-               console.log(results);
-             }
-           })
-         }
-       })
+    this.state = {
+      lat: 44.986656,
+      lng: -93.258133
     }
+  }
+
+  componentDidMount() {
+    fetch('https://api.foursquare.com/v2/venues/explore?near=Minneapolis&client_id=OXBDHJTAQEW2GZ2HILCTVWROC0PSQYPZPQGVQURTO5HRUGXY&client_secret=H5ZL5RVF12D5VAZCW2PUEUFE3UCZLTH044MJCO2V1PQZHK5A&v=20180323&limit=1&5=40.7243,-74.0018&query=outdoors',
+      {
+        method:"GET"
+      }
+    )
+    .then(function() {
+        // Code for handling API response
+    })
+    .catch(function() {
+        // Code for handling errors
+    });
+  }
 
   render(){
+
+      const {lat, lng} = this.state;
 
       return(
 
@@ -69,7 +55,12 @@ class Map extends Component {
               role="application"
               aria-label="map"
 
-              zoom={13}
+              center = {{
+                lat: lat,
+                lng: lng
+              }}
+
+              zoom={this.zoom}
 
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQx0zrGHKCqC5PpgVCNP8dQCBB5v_-VFM&libraries=places"
               loadingElement={<div style={{ height: `100%` }} />}
