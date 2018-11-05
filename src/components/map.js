@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow} from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow, Marker} from 'react-google-maps';
 //import  PlaceMarker  from './marker.js'
 import axios from 'axios'
-
 //const google = window.google;
 
 const GoogleMaps = withScriptjs(withGoogleMap(props => (
   <GoogleMap
     defaultCenter={{lat: 44.986656, lng: -93.258133}}
-    defaultZoom={13} >
+    defaultZoom={13}
+  >
+    {props.places.map(place => (
+       <Marker
+         position={{
+           lat: place.venue.location.lat,
+           lng: place.venue.location.lng
+         }}
+         key={place.venue.id}
+        />
+     ))}
   </GoogleMap>
 )));
 
 class Map extends Component {
   state = {
     places:[],
-    map: null,
-    markers:[],
-    markerProps:[],
-    activeMarker: null,
-    activeMarkerProps: null,
-    showingInfoWindow: false,
   };
 
   componentDidMount() {
@@ -44,26 +47,6 @@ class Map extends Component {
           console.log('ERROR!' + error)
       });
   }
-
-  mapReady = (props, map) => {
-    this.SetState({map});
-  }
-
-  closeWindow = () => {
-    this.state.activeMarker && this
-      .state
-      .activeMarker
-      .setAnimation(null);
-    this.SetState({showingInfoWindow: false, activeMarker: null, activeMarkerProps: null});
-
-  }
-
-  onMarkerClick = (props, marker, e) => {
-    this.closeInfoWindow();
-
-    this.setState({showingInfoWindow:true, activeMarker: marker, activeMarkerProps:props});
-  }
-
 
   render(){
 
@@ -92,9 +75,9 @@ class Map extends Component {
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQx0zrGHKCqC5PpgVCNP8dQCBB5v_-VFM&libraries=places"
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={ <div style={{ width: '100%', marginLeft: 0 }} /> }
-              mapElement={ <div style={{ height: `100%` }} /> } >
-
-
+              mapElement={ <div style={{ height: `100%` }} /> }
+              places={this.state.places}
+            >
             </GoogleMaps>
           </div>
         );
