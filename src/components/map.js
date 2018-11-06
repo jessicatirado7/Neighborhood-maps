@@ -16,7 +16,23 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
            lng: place.venue.location.lng
          }}
          key={place.venue.id}
-        />
+         onClick={() => props.onMarkerClick(place)}
+        >
+          {place.isOpen &&
+            <InfoWindow
+              tabIndex="0"
+              aria-label="Info window"
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
+              onCloseClick={() => props.MarkerClose(place)}>
+              <div tabIndex="1">
+                <h4 tabIndex="1">Place Holder</h4>
+                <p tabIndex="1"></p>
+              </div>
+            </InfoWindow>
+          }
+
+        </Marker>
      ))}
   </GoogleMap>
 )));
@@ -24,9 +40,24 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
 class Map extends Component {
   state = {
     places:[],
+    isOpen: false
   };
 
+  clickMarker() {
+    this.setState({
+      isOpen: true
+    })
+    console.log('Marker click')
+  }
+
+  closeWindow () {
+    this.setState({
+      isOpen: false
+    })
+  }
+
   componentDidMount() {
+
     const url = 'https://api.foursquare.com/v2/venues/explore?'
     const parameters = {
       client_id: 'OXBDHJTAQEW2GZ2HILCTVWROC0PSQYPZPQGVQURTO5HRUGXY',
@@ -49,7 +80,6 @@ class Map extends Component {
   }
 
   render(){
-
       const center = {
         lat: this.props.lat,
         lng: this.props.lng
@@ -76,6 +106,9 @@ class Map extends Component {
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={ <div style={{ width: '100%', marginLeft: 0 }} /> }
               mapElement={ <div style={{ height: `100%` }} /> }
+              onMarkerClick = {this.clickMarker.bind(this)}
+              onMarkerClose = {this.closeWindow.bind(this)}
+
               places={this.state.places}
             >
             </GoogleMaps>
