@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow, Marker} from 'react-google-maps';
-//import  PlaceMarker  from './marker.js'
 import axios from 'axios'
 //const google = window.google;
 
@@ -16,18 +15,15 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
            lng: place.venue.location.lng
          }}
          key={place.venue.id}
-         onClick={() => props.onMarkerClick(place)}
+         onClick={() => props.onToggleOpen(place.venue.id)}
         >
-          {place.isOpen &&
+          {place.venue.id === props.activeMarkers &&
             <InfoWindow
               tabIndex="0"
-              aria-label="Info window"
-              marker={this.state.activeMarker}
-              visible={this.state.showingInfoWindow}
-              onCloseClick={() => props.MarkerClose(place)}>
+              aria-label="Info window" >
               <div tabIndex="1">
-                <h4 tabIndex="1">Place Holder</h4>
-                <p tabIndex="1"></p>
+                <h4 tabIndex="1">{place.venue.name}</h4>
+                <p tabIndex="1">{place.venue.location.formattedAddress}</p>
               </div>
             </InfoWindow>
           }
@@ -40,21 +36,15 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
 class Map extends Component {
   state = {
     places:[],
-    isOpen: false
+    isOpen: false,
+    activeMarkers:""
   };
 
-  clickMarker() {
-    this.setState({
-      isOpen: true
-    })
-    console.log('Marker click')
-  }
-
-  closeWindow () {
-    this.setState({
-      isOpen: false
-    })
-  }
+onToggleOpen = placeKey => {
+  this.setState({
+    activeMarkers: placeKey
+  })
+}
 
   componentDidMount() {
 
@@ -80,6 +70,7 @@ class Map extends Component {
   }
 
   render(){
+
       const center = {
         lat: this.props.lat,
         lng: this.props.lng
@@ -106,10 +97,10 @@ class Map extends Component {
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={ <div style={{ width: '100%', marginLeft: 0 }} /> }
               mapElement={ <div style={{ height: `100%` }} /> }
-              onMarkerClick = {this.clickMarker.bind(this)}
-              onMarkerClose = {this.closeWindow.bind(this)}
 
               places={this.state.places}
+              activeMarkers={this.state.activeMarkers}
+              onToggleOpen={this.onToggleOpen}
             >
             </GoogleMaps>
           </div>
