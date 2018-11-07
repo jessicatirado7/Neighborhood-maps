@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow, Marker} from 'react-google-maps';
 import axios from 'axios'
+//import  Sidebar from './sidebar.js'
 //const google = window.google;
 
 const GoogleMaps = withScriptjs(withGoogleMap(props => (
@@ -103,6 +104,7 @@ onToggleOpen = placeKey => {
               onToggleOpen={this.onToggleOpen}
             >
             </GoogleMaps>
+
           </div>
         );
     }
