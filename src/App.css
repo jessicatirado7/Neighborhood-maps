@@ -1,12 +1,7 @@
 .App {
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
-
-aside {
-  float: left;
-  margin-left: 2%;
-}
-
 
 #map {
   height: 100%;

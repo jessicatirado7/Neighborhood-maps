@@ -4,7 +4,7 @@ import Drawer from '@material-ui/core/Drawer';
 class Sidebar extends Component {
   state={
     open:false,
-    query: ""
+    query: "",
   }
 
   styles= {
@@ -39,6 +39,7 @@ class Sidebar extends Component {
     this.setState({ query: newQuery})
   }
   render() {
+
     return (
       <Drawer open={this.props.open} onClose={this.props.toggleDrawer}>
         <div style={this.styles.list}>
@@ -53,10 +54,10 @@ class Sidebar extends Component {
             value={this.state.query}
           />
           <ul style={this.styles.noButllets}>
-            {this.props.places && this.props.places.map((place, index) => {
+            {this.props.places && this.props.places.map(place => {
                 return (
-                  <li style = {this.styles.listItem} key={index}>
-                      <button style={this.style.listLink} key={index}>
+                  <li style = {this.styles.listItem} key={place.venue.id}>
+                      <button style={this.style.listLink} key={place.venue.id}>
                         {place.venue.name}
                       </button>
                   </li>

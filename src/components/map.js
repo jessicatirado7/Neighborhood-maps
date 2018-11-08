@@ -37,7 +37,6 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
 class Map extends Component {
   state = {
     places:[],
-    isOpen: false,
     activeMarkers:""
   };
 
@@ -56,7 +55,7 @@ onToggleOpen = placeKey => {
       query:'outdoors',
       near:'Minneapolis',
       v:'20180323',
-      limit: '5'
+      //limit: '5'
     }
 
     axios.get(url + new URLSearchParams(parameters))

@@ -5,7 +5,7 @@ import  Sidebar from './components/sidebar.js'
 
 class App extends Component {
   state = {
-    open: false
+    open: false,
   }
   styles={
     menuButton: {
@@ -37,11 +37,12 @@ class App extends Component {
           <button onClick={this.toggleDrawer} style={this.styles.menuButton}>
             <i className="fa fa-bars"></i>
           </button>
-          <h1> Parks in Minneapolis, MN</h1>
+          <h1> Outdoor Venues in Minneapolis, MN</h1>
         </div>
         <Sidebar
           open={this.state.open}
           toggleDrawer={this.toggleDrawer}
+          places={this.state.places}
         />
         <Map />
       </div>
