@@ -40,10 +40,6 @@ class Sidebar extends Component {
     this.props.filterPlaces(newQuery);
   }
 
-  componentWillMount() {
-    this.setState({ places : this.props.places })
-  }
-
   render() {
 
     return (

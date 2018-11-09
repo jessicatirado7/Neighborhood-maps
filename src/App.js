@@ -4,6 +4,8 @@ import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow, Marker} from 'react
 import axios from 'axios'
 import  Sidebar from './components/sidebar.js'
 
+//const google = window.google;
+
 const GoogleMaps = withScriptjs(withGoogleMap(props => (
   <GoogleMap
     defaultCenter={{lat: 44.986656, lng: -93.258133}}
@@ -15,11 +17,13 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
            lat: place.venue.location.lat,
            lng: place.venue.location.lng
          }}
+         animation={window.google.maps.Animation.DROP}
          key={place.venue.id}
          onClick={() => props.onToggleOpen(place.venue.id)}
         >
           {place.venue.id === props.activeMarkers &&
             <InfoWindow
+
               tabIndex="0"
               aria-label="Info window" >
               <div tabIndex="1">
@@ -40,7 +44,7 @@ class App extends Component {
     open: false,
     places: [],
     activeMarkers:"",
-    filtered: null
+    filtered: null,
   }
 
   styles = {
@@ -94,7 +98,8 @@ class App extends Component {
     axios.get(url + new URLSearchParams(parameters))
       .then(response => {
         this.setState({
-          places: response.data.response.groups[0].items
+          places: response.data.response.groups[0].items,
+          filtered: response.data.response.groups[0].items
         })
       })
       .catch(error => {
@@ -116,7 +121,6 @@ class App extends Component {
     return places.filter(place => place.venue.name.toLowerCase().includes(query.toLowerCase()));
   }
 
-
   render() {
     const center = {
       lat: this.props.lat,
@@ -132,7 +136,7 @@ class App extends Component {
           <h1> Outdoor Venues in Minneapolis, MN</h1>
         </div>
         <Sidebar
-          places={this.state.places}
+          places={this.state.filtered}
           open={this.state.open}
           toggleDrawer={this.toggleDrawer}
           filterPlaces={this.updateQuery}
@@ -158,7 +162,7 @@ class App extends Component {
               containerElement={ <div style={{ width: '100%', marginLeft: 0 }} /> }
               mapElement={ <div style={{ height: `100%` }} /> }
 
-              places={this.state.places}
+              places={this.state.filtered}
               activeMarkers={this.state.activeMarkers}
               onToggleOpen={this.onToggleOpen}
             >
