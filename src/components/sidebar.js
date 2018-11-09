@@ -63,7 +63,7 @@ class Sidebar extends Component {
               {this.props.places && this.props.places.map(place => {
                   return (
                     <li style = {this.styles.listItem} key={place.venue.id}>
-                        <button style={this.style.listLink} key={place.venue.id}>
+                        <button style={this.styles.listLink} key={place.venue.id}>
                           {place.venue.name}
                         </button>
                     </li>
