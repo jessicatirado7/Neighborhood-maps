@@ -39,7 +39,8 @@ class App extends Component {
   state = {
     open: false,
     places: [],
-    activeMarkers:""
+    activeMarkers:"",
+    filtered: null
   }
 
   styles = {
@@ -58,6 +59,14 @@ class App extends Component {
       marginTop:'0px'
     }
   };
+
+  componentDidMount() {
+    this.fetchAPI();
+    this.setState({
+      ...this.state,
+      filtered: this.filterPlaces(this.state.places, "")
+    })
+  }
 
   toggleDrawer = () => {
     this.setState({
@@ -93,9 +102,20 @@ class App extends Component {
       });
   }
 
-  componentDidMount() {
-    this.fetchAPI();
+  updateQuery = (query) => {
+    // Update the query value and filter the list of locations accordingly
+    this.setState({
+      ...this.state,
+      selectedIndex: null,
+      filtered: this.filterPlaces(this.state.places, query)
+    });
   }
+
+  filterPlaces = (places, query) => {
+    // Filter locations to match query string
+    return places.filter(place => place.venue.name.toLowerCase().includes(query.toLowerCase()));
+  }
+
 
   render() {
     const center = {
@@ -115,6 +135,7 @@ class App extends Component {
           places={this.state.places}
           open={this.state.open}
           toggleDrawer={this.toggleDrawer}
+          filterPlaces={this.updateQuery}
         />
         <div style={{ height: '100vh',
           width: '100%',
@@ -130,6 +151,7 @@ class App extends Component {
               google={this.props.google}
               zoom = {this.props.zoom}
               initialCenter={center}
+
 
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQx0zrGHKCqC5PpgVCNP8dQCBB5v_-VFM&libraries=places"
               loadingElement={<div style={{ height: `100%` }} />}

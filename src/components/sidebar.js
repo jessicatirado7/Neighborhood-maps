@@ -35,8 +35,9 @@ class Sidebar extends Component {
     }
   };
 
-  updateQuery=(newQuery) => {
-    this.setState({ query: newQuery})
+  updateQuery = (newQuery) => {
+    this.setState({ query: newQuery});
+    this.props.filterPlaces(newQuery);
   }
 
   componentWillMount() {
