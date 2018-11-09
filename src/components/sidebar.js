@@ -38,35 +38,42 @@ class Sidebar extends Component {
   updateQuery=(newQuery) => {
     this.setState({ query: newQuery})
   }
+
+  componentWillMount() {
+    this.setState({ places : this.props.places })
+  }
+
   render() {
 
     return (
-      <Drawer open={this.props.open} onClose={this.props.toggleDrawer}>
-        <div style={this.styles.list}>
-          <input
-            style={this.styles.filterEntry}
-            type="text"
-            name="filter"
-            aria-label="Search"
-            placeholder="Search Location"
-            onChange={e => this
-              .updateQuery(e.target.value)}
-            value={this.state.query}
-          />
-          <ul style={this.styles.noButllets}>
-            {this.props.places && this.props.places.map(place => {
-                return (
-                  <li style = {this.styles.listItem} key={place.venue.id}>
-                      <button style={this.style.listLink} key={place.venue.id}>
-                        {place.venue.name}
-                      </button>
-                  </li>
-              );
-              }
-            )}
-          </ul>
+      <div>
+        <Drawer open={this.props.open} onClose={this.props.toggleDrawer} >
+          <div style={this.styles.list}>
+            <input
+              style={this.styles.filterEntry}
+              type="text"
+              name="filter"
+              aria-label="Search"
+              placeholder="Search Location"
+              onChange={e => this
+                .updateQuery(e.target.value)}
+              value={this.state.query}
+            />
+            <ul style={this.styles.noButllets}>
+              {this.props.places && this.props.places.map(place => {
+                  return (
+                    <li style = {this.styles.listItem} key={place.venue.id}>
+                        <button style={this.style.listLink} key={place.venue.id}>
+                          {place.venue.name}
+                        </button>
+                    </li>
+                );
+                }
+              )}
+            </ul>
           </div>
         </Drawer>
+      </div>
     );
   }
 }

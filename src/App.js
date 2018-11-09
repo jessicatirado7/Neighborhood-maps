@@ -6,8 +6,10 @@ import  Sidebar from './components/sidebar.js'
 class App extends Component {
   state = {
     open: false,
+    places: []
   }
-  styles={
+
+  styles = {
     menuButton: {
       marginLeft: 10,
       marginRight: 20,
@@ -40,11 +42,12 @@ class App extends Component {
           <h1> Outdoor Venues in Minneapolis, MN</h1>
         </div>
         <Sidebar
+          places={this.state.places}
           open={this.state.open}
           toggleDrawer={this.toggleDrawer}
-          places={this.state.places}
         />
-        <Map />
+        <Map
+          places = {this.state.places}/>
       </div>
     );
   }

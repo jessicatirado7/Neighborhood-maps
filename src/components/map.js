@@ -36,15 +36,18 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
 
 class Map extends Component {
   state = {
-    places:[],
     activeMarkers:""
   };
 
-onToggleOpen = placeKey => {
-  this.setState({
-    activeMarkers: placeKey
-  })
-}
+  onToggleOpen = placeKey => {
+    this.setState({
+      activeMarkers: placeKey
+    })
+  }
+
+  componentWillMount() {
+    this.setState({ places : this.props.places })
+  }
 
   componentDidMount() {
 
