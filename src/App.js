@@ -17,13 +17,12 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
            lat: place.venue.location.lat,
            lng: place.venue.location.lng
          }}
-         animation={window.google.maps.Animation.DROP}
+         animation={(place.venue.id === props.activeMarkers) && (window.google.maps.Animation.BOUNCE)}
          key={place.venue.id}
          onClick={() => props.onToggleOpen(place.venue.id)}
         >
           {place.venue.id === props.activeMarkers &&
             <InfoWindow
-
               tabIndex="0"
               aria-label="Info window" >
               <div tabIndex="1">
@@ -37,7 +36,6 @@ const GoogleMaps = withScriptjs(withGoogleMap(props => (
      ))}
   </GoogleMap>
 )));
-
 
 class App extends Component {
   state = {
@@ -80,7 +78,8 @@ class App extends Component {
 
   onToggleOpen = placeKey => {
     this.setState({
-      activeMarkers: placeKey
+      activeMarkers: placeKey,
+      open: false
     })
   }
 
@@ -140,6 +139,8 @@ class App extends Component {
           open={this.state.open}
           toggleDrawer={this.toggleDrawer}
           filterPlaces={this.updateQuery}
+          listClick={this.listClick}
+          onToggleOpen={this.onToggleOpen}
         />
         <div style={{ height: '100vh',
           width: '100%',

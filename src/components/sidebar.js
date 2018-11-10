@@ -37,7 +37,11 @@ class Sidebar extends Component {
 
   updateQuery = (newQuery) => {
     this.setState({ query: newQuery});
-    this.props.filterPlaces(newQuery);
+    this.props.filterPla(newQuery);
+  }
+
+  componentWillMount() {
+    this.setState({ places : this.props.places })
   }
 
   render() {
@@ -60,7 +64,10 @@ class Sidebar extends Component {
               {this.props.places && this.props.places.map(place => {
                   return (
                     <li style = {this.styles.listItem} key={place.venue.id}>
-                        <button style={this.styles.listLink} key={place.venue.id}>
+                        <button
+                          style={this.styles.listLink}
+                          key={place.venue.id}
+                          onClick={e => this.props.onToggleOpen(place.venue.id)}>
                           {place.venue.name}
                         </button>
                     </li>
