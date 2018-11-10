@@ -5,8 +5,7 @@ import axios from 'axios'
 import  Sidebar from './components/sidebar.js'
 import  Error from './components/Error.js'
 
-//const google = window.google;
-
+//react-google-maps components to mount map, markers, and infowindows
 const GoogleMaps = withScriptjs(withGoogleMap(props => (
   <GoogleMap
     defaultCenter={{lat: 44.986656, lng: -93.258133}}
@@ -48,12 +47,11 @@ class App extends Component {
 
   styles = {
     menuButton: {
-      marginLeft: 10,
-      marginRight: 20,
-      position: "absolute",
-      left: 20,
       background: "white",
-      padding: 10
+      padding: 10,
+      float:' left',
+      border: 'none',
+      fontSize: '24px'
     },
     hide: {
       display: 'none'
@@ -70,20 +68,20 @@ class App extends Component {
       filtered: this.filterPlaces(this.state.places, "")
     })
   }
-
+  //Toggle Sidebar funtion
   toggleDrawer = () => {
     this.setState({
       open: !this.state.open
     });
   }
-
+  //Toggle InfoWindow open and close
   onToggleOpen = placeKey => {
     this.setState({
       activeMarkers: placeKey,
       open: false
     })
   }
-
+  //call API from Foursquare
   fetchAPI = () => {
     const url = 'https://api.foursquare.com/v2/venues/explore?'
     const parameters = {
@@ -92,7 +90,7 @@ class App extends Component {
       query:'outdoors',
       near:'Minneapolis',
       v:'20180323',
-      limit: '5'
+      //limit: '5'
     }
 
     axios.get(url + new URLSearchParams(parameters))
@@ -106,18 +104,16 @@ class App extends Component {
           alert("Error! " + error);
       });
   }
-
+  // Update the query value and filter the list of locations accordingly
   updateQuery = (query) => {
-    // Update the query value and filter the list of locations accordingly
     this.setState({
       ...this.state,
       selectedIndex: null,
       filtered: this.filterPlaces(this.state.places, query)
     });
   }
-
+  // Filter locations to match query string
   filterPlaces = (places, query) => {
-    // Filter locations to match query string
     return places.filter(place => place.venue.name.toLowerCase().includes(query.toLowerCase()));
   }
 
@@ -133,7 +129,7 @@ class App extends Component {
           <button onClick={this.toggleDrawer} style={this.styles.menuButton}>
             <i className="fa fa-bars"></i>
           </button>
-          <h1> Outdoor Venues in Minneapolis, MN</h1>
+          <h1 style = {{float:'right'}}> Outdoor Venues in Minneapolis, MN</h1>
         </div>
         <Sidebar
           places={this.state.filtered}
@@ -169,7 +165,7 @@ class App extends Component {
               onToggleOpen={this.onToggleOpen}
             >
             </GoogleMaps>
-            </Error>
+          </Error>
           </div>
       </div>
     );
