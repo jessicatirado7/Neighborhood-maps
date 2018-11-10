@@ -3,6 +3,7 @@ import './App.css';
 import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow, Marker} from 'react-google-maps';
 import axios from 'axios'
 import  Sidebar from './components/sidebar.js'
+import  Error from './components/Error.js'
 
 //const google = window.google;
 
@@ -102,7 +103,7 @@ class App extends Component {
         })
       })
       .catch(error => {
-          console.log('ERROR!' + error)
+          alert("Error! " + error);
       });
   }
 
@@ -148,7 +149,7 @@ class App extends Component {
           flexFlow: 'row nowrap',
           justifyContent: 'center',
           padding: 0 }}>
-
+          <Error>
             <GoogleMaps
               role="application"
               aria-label="map"
@@ -168,7 +169,7 @@ class App extends Component {
               onToggleOpen={this.onToggleOpen}
             >
             </GoogleMaps>
-
+            </Error>
           </div>
       </div>
     );
