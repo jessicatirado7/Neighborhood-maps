@@ -81,6 +81,7 @@ class App extends Component {
       open: false
     })
   }
+
   //call API from Foursquare
   fetchAPI = () => {
     const url = 'https://api.foursquare.com/v2/venues/explore?'

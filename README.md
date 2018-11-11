@@ -9,17 +9,21 @@
 
 ## Instructions
 
+The Neighborhood Map with show outdoor venues in the Minneapolis area.
+
 This app was bootstrapped using [Create React App](https://github.com/facebookincubator/create-react-app) and can be ran by following the process listed below.
 
 1. Download or clone this repository
 2. Install all project dependencies with `npm install`
 3. `npm start` will start your development server and host on http://localhost:3000/
 
-The Neighborhood Map with show outdoor venues in the Minneapolis area.
-
+Please note, **service worker** provide offline capabilities. This only works in the **production build**. To run the app in build mode please run:
+```
+npm run build
+```
 ## Contributing
 
-We most likely will not accept pull requests. 
+We most likely will not accept pull requests.
 
 ## Resources
 
